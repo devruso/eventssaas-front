@@ -41,13 +41,22 @@ export function Login() {
 
   async function submitForm(data) {
     const error = await userLogin(data);
-    if (error) {
-      toast.error(error.response.data.message, {
+    try{
+      if (error) {
+        const errorMessage = error.response?.data?.message || "Ocorreu um erro desconhecido.";
+        toast.error(errorMessage, {
+          position: "bottom-right",
+          duration: 2500
+        });
+      } else {
+        navigate("/timeline");
+      }
+    }catch(error){
+      const errorMessage = error.response?.data?.message || "Ocorreu um erro desconhecido.";
+      toast.error(errorMessage, {
         position: "bottom-right",
         duration: 2500
       });
-    } else {
-      navigate("/timeline");
     }
   }
 
